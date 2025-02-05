@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roll the Dice</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            transition: background-color 0.3s, color 0.3s;
+            min-height: 200vh;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 5px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            margin: 10px;
+        }
+        .result {
+            margin-top: 100px;
+            font-size: 70px;
+            font-weight: bold;
+            word-wrap: break-word;
+        }
+        .history {
+            margin-top: 30px;
+            font-size: 18px;
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .sidebar {
+            position: fixed;
+            left: -200px;
+            top: 0;
+            width: 200px;
+            height: 100%;
+            background: #333;
+            padding-top: 20px;
+            transition: left 0.3s;
+        }
+        .sidebar.active {
+            left: 0;
+        }
+        .menu-icon {
+            position: fixed;
+            left: 0;
+            top: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            background: #333;
+            color: white;
+            border-radius: 0 5px 5px 0;
+        }
+        .dark-mode {
+            background-color: #121212;
+            color: #ffffff;
+        }
+        .dark-mode button {
+            background-color: #555;
+            color: white;
+        }
+        .dark-mode button:hover {
+            background-color: #777;
+        }
+    </style>
+</head>
+<body onclick="closeSidebar(event)">
+    <div class="menu-icon" onclick="toggleSidebar(event)">&#9776;</div>
+    <div class="sidebar" id="sidebar">
+        <button onclick="toggleDarkMode()">Modo Escuro</button>
+        <button onclick="clearHistory()">Limpar Histórico</button>
+        <button onclick="closeSidebar(event)">Fechar</button>
+    </div>
+    <h1>Roll the Dice</h1>
+    <select id="dado1">
+        <option value="2">d2</option>
+        <option value="4">d4</option>
+        <option value="6">d6</option>
+        <option value="8">d8</option>
+        <option value="10">d10</option>
+        <option value="12">d12</option>
+        <option value="20">d20</option>
+    </select>
+    <select id="dado2">
+        <option value="none">Nenhum</option>
+        <option value="2">d2</option>
+        <option value="4">d4</option>
+        <option value="6">d6</option>
+        <option value="8">d8</option>
+        <option value="10">d10</option>
+        <option value="12">d12</option>
+        <option value="20">d20</option>
+    </select>
+    <select id="operacao">
+        <option value="none">Nenhuma</option>
+        <option value="soma">Soma</option>
+        <option value="subtracao">Subtração</option>
+        <option value="multiplicacao">Multiplicação</option>
+        <option value="divisao">Divisão</option>
+    </select>
+    <button onclick="rolarDado()">Rolar Dados</button>
+    <div class="result" id="resultado"></div>
+    <div class="history" id="historico">Histórico de Rolagens:</div>
+    <script>
+        function rolarDado() {
+            let dado1 = parseInt(document.getElementById('dado1').value);
+            let dado2Value = document.getElementById('dado2').value;
+            let operacao = document.getElementById('operacao').value;
+            let resultadoDado1 = Math.floor(Math.random() * dado1) + 1;
+            let resultadoDado2 = dado2Value !== "none" ? Math.floor(Math.random() * parseInt(dado2Value)) + 1 : null;
+            let resultado;
+            
+            switch (operacao) {
+                case "soma":
+                    resultado = resultadoDado1 + (resultadoDado2 || 0);
+                    break;
+                case "subtracao":
+                    resultado = resultadoDado1 - (resultadoDado2 || 0);
+                    break;
+                case "multiplicacao":
+                    resultado = resultadoDado2 !== null ? resultadoDado1 * resultadoDado2 : resultadoDado1;
+                    break;
+                case "divisao":
+                    resultado = resultadoDado2 !== null && resultadoDado2 !== 0 ? (resultadoDado1 / resultadoDado2).toFixed(2) : "Indefinido";
+                    break;
+                default:
+                    resultado = resultadoDado2 !== null ? `${resultadoDado1}, ${resultadoDado2}` : resultadoDado1;
+            }
+            
+            let resultadoElement = document.getElementById('resultado');
+            resultadoElement.innerHTML = resultado;
+            
+            let historicoElement = document.getElementById('historico');
+            historicoElement.innerHTML += `<br> ${resultado}`;
+        }
+
+        function closeSidebar(event) {
+            if (!event.target.closest('.sidebar') && !event.target.closest('.menu-icon')) {
+                document.getElementById('sidebar').classList.remove('active');
+            }
+        }
+
+        function toggleSidebar(event) {
+            event.stopPropagation();
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        function clearHistory() {
+            document.getElementById('historico').innerHTML = "Histórico de Rolagens:";
+        }
+    </script>
+</body>
+</html>
