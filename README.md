@@ -19,7 +19,7 @@ Este é um aplicativo simples para rolar dados com valores variáveis (de D2 at�
 
 1. Clone este repositório:
    ```bash
-   git clone https://github.com/SEU-USER/SEU-REPO.git
+   git clone https://github.com/GiovanneMHol/Roll-the-Dice
 
 
 ## Erros Conhecidos e Melhorias Futuras
