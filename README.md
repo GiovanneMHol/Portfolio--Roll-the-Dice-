@@ -8,7 +8,6 @@ Este é um aplicativo simples para rolar dados com valores variáveis (de D2 at�
 - **Operações Matemáticas:** Realize operações (soma, subtração, multiplicação e divisão) com os resultados das rolagens de dois dados.
 - **Histórico:** Exibe um histórico das rolagens, com a opção de limpar o histórico.
 - **Modo Escuro:** O aplicativo possui um modo escuro para uma experiência de usuário mais confortável à noite.
-- **Diferenciação de Resultados:** O aplicativo destaca os resultados baixos (rolagens de 1) e altos (rolagens máximas).
 
 ## Como Rodar o Projeto
 
